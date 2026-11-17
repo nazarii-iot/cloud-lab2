@@ -1,0 +1,53 @@
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud-lab2-api
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgresql://clouduser:cloudpass@postgres:5432/clouddb
+      REDIS_URL: redis://redis:6379/0
+      AUTHOR_NAME: "Мельник Назарій"
+      AUTHOR_GROUP: "ІР-34"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: cloud-lab2-postgres
+    environment:
+      POSTGRES_USER: clouduser
+      POSTGRES_PASSWORD: cloudpass
+      POSTGRES_DB: clouddb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clouduser -d clouddb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: cloud-lab2-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

@@ -1,0 +1,4 @@
+﻿services:
+  api:
+    environment:
+      REDIS_URL: ""
