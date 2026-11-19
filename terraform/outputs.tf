@@ -21,3 +21,7 @@ output "dashboard_name" {
 output "sns_topic_arn" {
   value = aws_sns_topic.alerts.arn
 }
+
+output "redis_primary_endpoint" {
+  value = aws_elasticache_replication_group.redis.primary_endpoint_address
+}

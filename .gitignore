@@ -1,4 +1,4 @@
-﻿.terraform/
+.terraform/
 *.tfstate
 *.tfstate.*
 *.tfplan
@@ -7,9 +7,29 @@ terraform.tfvars.json
 .env
 .env.*
 !.env.example
-__pycache__/
-*.py[cod]
 .venv/
 venv/
-
+__pycache__/
+*.py[cod]
 *.bak
+.DS_Store
+Thumbs.db
+dashboard-markers.tfvars
+
+# Local Terraform configuration
+terraform/*.tfvars
+terraform/*.tfvars.json
+
+# Local environment and credentials
+.env
+.env.*
+
+# Temporary files and logs
+*.log
+*.corrupted-backup
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Local diagnostic artifacts
+monitoring/cache-off-diagnostics/

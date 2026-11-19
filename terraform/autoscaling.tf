@@ -15,8 +15,8 @@ resource "aws_appautoscaling_policy" "requests" {
 
   target_tracking_scaling_policy_configuration {
     target_value       = var.requests_per_target
-    scale_in_cooldown  = 180
-    scale_out_cooldown = 60
+    scale_in_cooldown  = var.scale_in_cooldown_seconds
+    scale_out_cooldown = var.scale_out_cooldown_seconds
 
     predefined_metric_specification {
       predefined_metric_type = "ALBRequestCountPerTarget"

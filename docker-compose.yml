@@ -10,6 +10,7 @@ services:
     environment:
       DATABASE_URL: postgresql://clouduser:cloudpass@postgres:5432/clouddb
       REDIS_URL: redis://redis:6379/0
+      CACHE_TTL_SECONDS: "45"
       AUTHOR_NAME: "Мельник Назарій"
       AUTHOR_GROUP: "ІР-34"
     depends_on:

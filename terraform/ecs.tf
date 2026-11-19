@@ -63,6 +63,26 @@ resource "aws_ecs_task_definition" "api" {
         value = "postgresql://${var.db_username}:${var.db_password}@${aws_db_instance.postgres.address}:${aws_db_instance.postgres.port}/${var.db_name}"
       },
       {
+        name  = "REDIS_URL"
+        value = var.enable_redis_cache ? "rediss://${aws_elasticache_replication_group.redis.primary_endpoint_address}:${aws_elasticache_replication_group.redis.port}/0" : ""
+      },
+      {
+        name  = "CACHE_TTL_SECONDS"
+        value = "45"
+      },
+      {
+        name  = "DB_POOL_MIN_SIZE"
+        value = "1"
+      },
+      {
+        name  = "DB_POOL_MAX_SIZE"
+        value = "5"
+      },
+      {
+        name  = "BUILD_ID"
+        value = var.api_image_tag
+      },
+      {
         name  = "AUTHOR_NAME"
         value = "Мельник Назарій"
       },
@@ -81,6 +101,10 @@ resource "aws_ecs_task_definition" "api" {
       }
     }
   }])
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   depends_on = [
     aws_iam_role_policy_attachment.ecs_execution
